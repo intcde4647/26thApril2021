@@ -1,0 +1,161 @@
+1. CREATE DATABASE mydatabase; --creating a database
+2. USE mydatabase;             --using a database
+3. CREATE TABLE emp_master     --creating a table
+ (
+   code VARCHAR(5) PRIMARY KEY,
+   name VARCHAR(20),
+   desig VARCHAR(10),
+   dept VARCHAR(10),
+   basic FLOAT(7,2)
+);
+
+4. DESC emp_master;  --to see the table structure
+
+--Inserting records
+
+INSERT INTO emp_master VALUES('E0001','Ram','Manager','Sales',15000.50);
+INSERT INTO emp_master VALUES('E0002','Tom','AsstMgr','Sales',12000.50);
+INSERT INTO emp_master VALUES('E0003','Zuben','Manager','Mkt',15000.25);
+INSERT INTO emp_master VALUES('E0004','Radhika','Clerk','HR',6000.00);
+INSERT INTO emp_master VALUES('E0005','Ahmed','Typist','HR',7000.00);
+
+COMMIT;
+
+--Displaying records
+
+SELECT * FROM emp_master;
+SELECT code,name,desig,dept,basic FROM emp_master;
+SELECT code,name,desig,dept FROM emp_master;
+SELECT code,basic FROM emp_master;
+SELECT code,name,basic FROM emp_master;
+
+--Updating records
+
+
+UPDATE emp_master SET name='Ramesh' WHERE code='E0001';
+COMMIT;
+--Deleting a record
+
+
+DELETE FROM emp_master WHERE code='E0001';
+COMMIT;
+--droping table
+
+
+DROP TABLE table1
+
+1) To display a list of tables.
+solution:- SHOW TABLES
+2) To display the table structure.
+solution:-SHOW DATABASES
+------------------------------------------------------------------------------------------------------
+SOME IMPORTANT ALTER COMMANDS
+1) ALTER TABLE table1 ADD COLUMN column4 VARCHAR(10);  --adding a column to a table
+
+Question add one more column called address of varchar and size 30.
+Store addresses in all the 4 records. 
+-----------------------------------------------------------------
+Created a table without primary key
+  
+ create table book_master
+  (
+    bookid varchar(5),
+    bookname varchar(20),
+    price int(5)
+ );
+DESC book_master;
+
+
+2) ALTER TABLE table1 ADD PRIMARY KEY(code);  --adding a primary key to a table
+
+ALTER TABLE book_master ADD PRIMARY KEY(bookid);
+
+--------------------------------------------------------
+3) ALTER TABLE table1 ADD UNIQUE  KEY(code);  --adding unique key to a table 
+
+-------------------------------------------------
+
+4) ALTER TABLE table1 CHANGE column1 column2 VARCHAR2(10);--changing the column name
+    ALTER TABLE table_name RENAME COLUMN old_column_name TO new_column_name;
+
+Question: change the column name price as book_price
+ 
+  ALTER TABLE book_master CHANGE price book_price INT(5);
+---------------------------------------------------------------------
+5) ALTER TABLE table1 ADD CONSTRAINT my_key FOREIGN KEY (column3)---making a column as foreign key
+-------------------------------------------------------------------
+6) ALTER TABLE table1 DROP FOREIGN KEY my_key;
+--------------------------------------------------------------------
+7) ALTER TABLE table1 RENAME table2;
+
+Question: Rename emp_master as employee_details.
+
+ALTER TABLE emp_master RENAME employee_details
+-------------------------------------------------------------
+8) ALTER TABLE table1 DROP COLUMN column1;
+
+Question: Drop the column address in employee_details
+ 
+ALTER TABLE employee_details DROP COLUMN address;
+------------------------------------------------------------------
+9) ALTER TABLE table1 DROP PRIMARY KEY;
+
+Question: Drop the primary key of the employee_details.
+   
+ALTER TABLE employee_details DROP PRIMARY KEY;
+----------------------------------------------------------------
+10)ALTER TABLE table1 MODIFY columnname varchar(500);
+
+Question: change the size of the column name as 30.
+
+ALTER TABLE employee_Details MODIFY name varchar(30);
+
+11) ALTER TABLE table1 ADD COLUMN (column1 VARCHAR(5),column2 VARCHAR(5));
+
+QUestion: Add address and mobile_no to the employee_details table/
+
+ALTER TABLE employee_details ADD COLUMN (address VARCHAR(3),
+mobile_no VARCHAR(10));
+
+DESC employee_details;
+
+UPDATE employee_details SET address='Kolkata',mobile_no='9867451234'
+WHERE code='E0002';
+
+
+
+
+------------------------------------------------------------------------------------------------------ 
+OTHER COMMANDS
+1) CREATE USER 'newuser'@'localhost' IDENTIFIED BY 'password';
+2) GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP  ON bankaccount.* TO 'ctsuser'@'localhost';
+3) GRANT ALL PRIVILEGES ON *.* TO 'newuser'@'localhost';
+4) REVOKE ALL  PRIVILEGES ON *.*  FROM 'newuser'@'localhost';
+5) REVOKE UPDATE, DELETE ON  *.*  FROM 'cts'@'localhost';
+------------------------------------------------------------------------------------------------------
+
+SET SQL_SAFE_UPDATES=0 --To alter a table without putting primary key in where clause
+---------------------------------------------------------------------------------------------------------
+  UPDATE employee_details 
+  set address='kolkata'
+  WHERE code='E0001'
+
+
+
+
+
+CREATE USER books_admin IDENTIFIED BY MyPassword;
+2.GRANT CONNECT TO books_admin;
+3.GRANT CONNECT, RESOURCE, DBA TO books_admin;
+4.GRANT CREATE SESSION GRANT ANY PRIVILEGE TO books_admin;
+5.GRANT UNLIMITED TABLESPACE TO books_admin;
+
+
+
+
+
+
+
+
+
+

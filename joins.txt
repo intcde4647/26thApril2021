@@ -1,0 +1,192 @@
+--Create a table item_master , with 
+
+CREATE DATABASE shopdb;
+USE shopdb;
+
+CREATE TABLE item_master
+  (
+  item_code VARCHAR(5),
+  item_name VARCHAR(15) NOT NULL,
+  item_price FLOAT(7,2) NOT NULL,
+  item_category VARCHAR(10) NOT NULL,
+  CONSTRAINT item_master_pk PRIMARY KEY(item_code)
+  );
+
+--add some items in  item_master
+
+ INSERT INTO item_master VALUES('I0001','Colgate',60.78,'Paste');
+ INSERT INTO item_master VALUES('I0002','Lux',20.50,'Soap');
+ INSERT INTO item_master VALUES('I0003','Dettol',25.00,'Soap');
+ INSERT INTO item_master VALUES('I0004','Promise',59.00,'Paste');
+ INSERT INTO item_master VALUES('I0005','Park Avenue',450.00,'Perfume');
+ INSERT INTO item_master VALUES('I0006','Exotica',600.00,'Perfume');
+
+
+--Create table customer_master with
+
+  CREATE TABLE customer_master
+  (
+    cust_code VARCHAR(5),
+    firstname VARCHAR(20) NOT NULL,
+    middlename VARCHAR(20),
+    lastname VARCHAR(20) NOT NULL,
+    address VARCHAR(30) NOT NULL,
+    mobileno VARCHAR(10) NOT NULL,
+    city VARCHAR(30) NOT NULL,
+    state VARCHAR(30) NOT NULL,
+    CONSTRAINT customer_master_pk PRIMARY key(cust_code)
+   );
+
+--add some customers in  customer_master
+INSERT INTO customer_master VALUES('C0001','Ram','Kumar','Sharma','A/2 ,Netaji Nagar','9865343412','Durgapur','West Bengal');
+INSERT INTO customer_master VALUES('C0002','Shavant',null,' Pingle','55-A,Jawahar Colony','8763452356','Mumbai','Maharastra');
+INSERT INTO customer_master VALUES('C0003','Rama',null,'Chandran','456-1,Sastri Nagar','9834566788','Kolkata','West Bengal');
+INSERT INTO customer_master VALUES('C0004','Ashok','Kumar','Bajaj','2/1 Mahatma Gandhi Road','7890045666','Pune','Maharastra');
+
+
+--Create table item_transaction
+
+
+ CREATE TABLE item_transaction 
+ (
+   cust_code VARCHAR(5), -- FK   (ON DELETE CASCADE, ON UPDATE CASCADE)
+   item_code VARCHAR(5), -- FK   (ON DELETE CASCADE, ON UPDATE CASCADE)
+   date_of_pur DATE NOT NULL,
+   qty_pur INT(5) NOT NULL,
+   CONSTRAINT item_transaction_cust_code_fk FOREIGN KEY(cust_code) REFERENCES customer_master(cust_code) ON DELETE CASCADE ON UPDATE CASCADE,
+   CONSTRAINT item_transaction_item_code_fk FOREIGN KEY(item_code) REFERENCES item_master(item_code) ON DELETE CASCADE ON UPDATE CASCADE
+ );
+
+ 
+--add some transaction details  in  item_transaction
+  
+
+INSERT INTO item_transaction VALUES('C0001','I0003','2016-01-15',100);
+INSERT INTO item_transaction VALUES('C0002','I0003','2016-03-13',50);
+INSERT INTO item_transaction VALUES('C0001','I0005','2015-12-04',10);
+----------------------------------------------------------------------------------------------------------------------
+
+1) Display cust_code,firstname,middlename,item_code and date_of_purchase.
+
+ ANSI STYLE:-
+ 
+ SELECT it.cust_code,firstname,middlename,item_code,date_of_pur
+ FROM customer_master cm JOIN item_transaction it
+ ( Cartesian product)
+
+item_transaction.cust_code,firstname,middlename,item_code,date_of_pur
+ FROM customer_master  JOIN item_transaction
+ ON customer_master.cust_code=item_transaction.cust_code
+
+
+ THETA STYLE:-
+
+ SELECT it.cust_code,firstname,middlename,item_code,date_of_pur
+ FROM customer_master cm,item_transaction it
+ WHERE cm.cust_code=it.cust_code
+ 
+------------------------------------------------------------------------------------------
+
+1) Display cust_code,firstname,middlename,item_code,item_name,item_price and date_of_purchase.
+
+ ANSI STYLE:-
+ SELECT it.cust_code,firstname,middlename,it.item_code,item_name,item_price,date_of_pur
+ FROM customer_master cm JOIN item_transaction it
+ ON cm.cust_code=it.cust_code
+ JOIN item_master im
+ ON im.item_code=it.item_code;
+
+
+ SELECT it.cust_code,firstname,middlename,it.item_code,item_name,item_price,date_of_pur
+ FROM customer_master cm JOIN item_transaction it JOIN item_master im
+ ON cm.cust_code=it.cust_code
+ AND im.item_code=it.item_code;
+
+THETA STYLE:-
+
+ SELECT it.cust_code,firstname,middlename,it.item_code,item_name,item_price,date_of_pur
+ FROM customer_master cm,item_transaction it,item_master im
+ WHERE cm.cust_code=it.cust_code AND im.item_code=it.item_code;
+  
+------------------------------------------------------------------------------------------------
+NATURAL JOIN
+
+SELECT cust_code,firstname,date_of_pur FROM customer_master NATURAL JOIN item_transaction;
+
+
+SELECT * FROM customer_master NATURAL JOIN item_transaction NATURAL JOIN item_master; 
+
+------------------------------------------------------------------------------------------
+JOIN BY USING
+
+SELECT it.cust_code,firstname,middlename,item_code,date_of_pur
+  FROM customer_master cm JOIN item_transaction it
+  USING(cust_code);
+
+SELECT it.cust_code,firstname,middlename,it.item_code,item_name,item_price,date_of_pur
+ FROM customer_master cm JOIN item_transaction it
+ USING(cust_code)
+ JOIN item_master im
+ USING(item_code);
+
+--------------------------------------------------------------------------------------------
+OUTER JOINS
+
+SELECT cm.cust_code,firstname,middlename,item_code,date_of_pur
+ FROM customer_master cm LEFT OUTER JOIN item_transaction it
+ ON cm.cust_code=it.cust_code;
+
+-------------------------------------------------------------------------------------------------
+SELF JOINS
+
+CREATE tABLE employee_managers
+(
+  empcode VARCHAR(5),
+  empname VARCHAR(20),
+  basic INT(7,2),
+  mgrcode VARCHAR(5),
+  CONSTRAINT employee_managers_pk PRIMARY KEY(empcode),
+  CONSTRAINT employee_managers_fk FOREIGN KEY(mgrcode) REFERENCES employee_managers(empcode)
+);
+
+INSERT INTO employee_managers VALUES('E0001','Raman',20000,null);
+INSERT INTO employee_managers VALUES('E0002','Gajendra',18000,'E0001');
+INSERT INTO employee_managers VALUES('E0003','Raghav',15000,'E0002');
+ 
+
+DISPLAY employee and their managers (SELF JOIN)
+
+SELECT emp.empname,mgr.empname
+FROM employee_managers emp JOIN employee_managers mgr
+ON emp.mgrcode=mgr.empcode;
+
+
+NON equi join example
+
+CREATE TABLE grade_sal
+ (
+   grade VARCHAR(1) PRIMARY KEY,
+   minsal INT(5),
+   maxsal INT(5)
+ );
+
+  INSERT INTO grade_sal VALUES('A',10000,15000);
+  INSERT INTO grade_sal VALUES('B',9000,9999); 
+  INSERT INTO grade_sal VALUES('C',5000,8999);
+
+
+  SELECT empname,basic,grade
+  FROM employee_manager em JOIN grade_sal gs
+  WHERE basic between minsal and maxsal;
+ 
+
+  SELECT item_name,max_price FROM
+  item_master im JOIN (SELECT item_category,max(price) max_price 
+   FROM item_master
+   GROUP BY item_category) maximum_price mp 
+   ON im.item_category=mp.item_category
+
+
+
+ 
+

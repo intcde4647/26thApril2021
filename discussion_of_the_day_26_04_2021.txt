@@ -1,0 +1,114 @@
+ANSI=====> American National Standards Institute
+
+SQL======> Structured Query Language
+
+Oracle, Sybase, MySQL, DB2
+All of the above are RDBMS.
+
+You need to learn working with one of the RDBMS say Oracle.
+
+So how we interact with the Databases like Oracle or MySQL
+ans: With the help of SQL.
+
+What is SQL?
+Structured Query Language. It is a standard language to interact with the database.
+
+ANSI SQL :-
+It is a standard way of writing SQL and the same SQL statement can be applied with the different
+RDBMSs.
+
+--------------------------------------------------------------------------------------------------------------
+ANSL SQL-> Is the language with which you are going to interact withn RDBMS. RDBMS can MySQL, Oracle, SYBASE
+MYSQL, SQL Server, Oracle=====> Databases
+PL/SQL, T-SQL======> Programming language which is used to write function and methods for databases.
+--------------------------------------------------------------------------------------------------------------
+
+
+SQL statements :
+
+DDL----->Data definition language
+            CREATE, ALTER , TRUNCATE, RENAME, DROP
+DML------> Data Manipulation languages
+           INSERT, UPDATE , DELETE, ( SELECT )
+DQL-------> Data Query Language
+            SELECT
+TCL-------> Transaction Control language
+             COMMIT, ROLLBACK, SAVEPOINT
+DCL-------> Data Control language
+            GRANT, REVOKE
+-----------------------------------------------------------------------------------------------------
+ 
+MySQL installation
+
+https://dev.mysql.com/downloads/mysql/
+
+* MYSQL Server
+* MySQL WorkBench ( IDE )
+* MYSQL command line
+--------------------------------------------------------------------------------------------------------------
+
+CREATE a databse in MYSQL.
+
+CREATE DATABASE firstdb;
+
+Is SQL commands are case sensitive?
+No,  we can write both in lowercase and uppercase.
+But the convention which is usually followed , we write the keywords in Uppercase and identfiers ( the database name, the table name , the column names we write in lowercase)
+
+
+After creating the database , next import task is using the database
+
+USE firstdb;
+
+-----------------------------------------------------------------------------------
+
+Creating a table?
+
+CREATE TABLE employee_details
+ 
+CREATE TABLE emp_master     -- creating a table
+ 
+(
+   code VARCHAR(5) PRIMARY KEY,
+   
+name VARCHAR(20),
+   
+desig VARCHAR(10),
+   
+dept VARCHAR(10),
+   
+basic FLOAT(7,2)
+
+);
+
+
+
+
+
+Q What is a primary key?
+Primary key uniquely identifies a record/row/tuple/
+Primary key should be unique
+It cannot have a null value.
+
+How to see the structure of the table
+ DESCRIBE emp_master;
+ OR
+ DESC emp_master;
+
+
+-----------------------------------------------------------------
+
+INSERT INTO emp_master VALUES('E0001','Ram','Manager','Sales',15000.50);
+INSERT INTO emp_master VALUES('E0002','Tom','AsstMgr','Sales',12000.50);
+INSERT INTO emp_master VALUES('E0003','Zuben','Manager','Mkt',15000.25);
+INSERT INTO emp_master VALUES('E0004','Radhika','Clerk','HR',6000.00);
+INSERT INTO emp_master VALUES('E0005','Ahmed','Typist','HR',7000.00);
+
+
+
+
+
+
+
+
+   1) DDL ===Data definition l
